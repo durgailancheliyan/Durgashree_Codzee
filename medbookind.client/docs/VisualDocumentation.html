@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedBookInd - Visual Page Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .page-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .page-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .page-card h3 {
+            color: #2d3748;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-card .icon {
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .page-card .route {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .page-card .features {
+            margin-bottom: 20px;
+        }
+
+        .page-card .features h4 {
+            color: #4a5568;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .page-card .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .page-card .features li {
+            padding: 5px 0;
+            color: #718096;
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .page-card .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .tech-stack {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tech-stack h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tech-item h4 {
+            color: #2d3748;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .tech-item p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .principle {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .principle h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .principle p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .api-table-wrap {
+            overflow-x: auto;
+            margin-top: 16px;
+        }
+
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .api-table th, .api-table td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .api-table th {
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        .api-table code {
+            font-size: 0.85rem;
+            background: #f8fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .arch-diagram {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: #475569;
+            margin-top: 16px;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 768px) {
+            .page-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MedBookInd</h1>
+            <p>Visual Page Documentation - Healthcare Management System</p>
+        </div>
+
+        <div class="section">
+            <h2>Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Frontend</h4>
+                    <p>React 18+ with TypeScript, Tailwind CSS, Radix UI</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Backend</h4>
+                    <p>Node.js, Express (TypeScript), REST API — project folder <code>medbookind.server</code></p>
+                </div>
+                <div class="tech-item">
+                    <h4>Database</h4>
+                    <p>PostgreSQL (Docker Compose or local instance; schema in server <code>src/schema.sql</code>)</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Charts</h4>
+                    <p>Recharts, Custom KPI Cards</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Client and server architecture</h2>
+            <p style="color:#4a5568; margin-bottom:16px;">
+                The browser loads the React app from the Vite dev server (HTTPS, port 5173). All HTTP calls use relative paths under
+                <code>/api</code>; Vite proxies them to the Express API (default <code>http://localhost:5000</code>). JWT bearer tokens are stored in
+                <code>localStorage</code> and attached by Axios interceptors in <code>src/services/*.ts</code>.
+            </p>
+            <div class="arch-diagram">Browser (React + TypeScript + Tailwind)
+  →  Vite dev server  :5173  (HTTPS)
+        │  proxy /api →
+        └→  Express API  :5000  (medbookind.server)
+              └→  PostgreSQL</div>
+            <h3 style="color:#2d3748; margin:24px 0 12px;">Client modules (high level)</h3>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Routing</h4>
+                    <p><code>src/routes/AppRoutes.tsx</code> — role-based areas: <code>/admin/*</code>, <code>/doctor/*</code>, <code>/staff/*</code>, <code>/patient/*</code>, <code>/developer/*</code></p>
+                </div>
+                <div class="tech-item">
+                    <h4>API services</h4>
+                    <p><code>auth.service.ts</code>, <code>users.service.ts</code>, <code>practice.service.ts</code>, <code>location.service.ts</code>, <code>onboarding.service.ts</code>, <code>txconfig.service.ts</code></p>
+                </div>
+                <div class="tech-item">
+                    <h4>Guards</h4>
+                    <p><code>ProtectedRoute</code> (role), <code>PrivateRoute</code> (auth + onboarding), <code>AuthContext</code></p>
+                </div>
+            </div>
+            <h3 style="color:#2d3748; margin:24px 0 12px;">REST API prefixes (server)</h3>
+            <div class="api-table-wrap">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Prefix</th>
+                            <th>Responsibility</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>/api/auth</code></td>
+                            <td>Login, register, password reset, validate token</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/user</code></td>
+                            <td>Users for a practice; roles and locations for current user</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/practice</code></td>
+                            <td>Practice CRUD, multipart logo</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/location</code></td>
+                            <td>Location CRUD</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/Onboarding</code></td>
+                            <td>Onboarding data/status, bulk steps, subscription</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/TreamentConfig</code></td>
+                            <td>Treatment categories, plans, addons (name matches legacy client path)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 style="color:#2d3748; margin:24px 0 12px;">Implemented client routes (representative)</h3>
+            <div class="api-table-wrap">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Path</th>
+                            <th>Area</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>/auth</code></td><td>Login / register</td></tr>
+                        <tr><td><code>/onboarding</code></td><td>Practice onboarding wizard</td></tr>
+                        <tr><td><code>/admin/dashboard</code></td><td>Admin dashboard</td></tr>
+                        <tr><td><code>/admin/consult-manager</code>, <code>/admin/newcm</code></td><td>Consultation manager</td></tr>
+                        <tr><td><code>/admin/configuration/*</code></td><td>Treatment, patient, payment, appointment configuration</td></tr>
+                        <tr><td><code>/admin/practice-management</code>, <code>/admin/subscription</code></td><td>Practice &amp; subscription</td></tr>
+                        <tr><td><code>/doctor/dashboard</code>, <code>/doctor/doctor-schedule</code></td><td>Doctor views</td></tr>
+                        <tr><td><code>/staff/dashboard</code>, <code>/staff/consult-manager</code></td><td>Staff views</td></tr>
+                        <tr><td><code>/patient/patient-dashboard</code>, <code>/patient/patient-profile</code></td><td>Patient portal</td></tr>
+                        <tr><td><code>/developer/dashboard</code>, <code>/developer/practicemanagement</code></td><td>Developer tools</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>UX/UI Design Principles</h2>
+            <div class="principles">
+                <div class="principle">
+                    <h4>Minimalistic Design</h4>
+                    <p>Clean interfaces with intuitive layouts and focused user experience</p>
+                </div>
+                <div class="principle">
+                    <h4>Responsive Layout</h4>
+                    <p>Mobile-first design that adapts seamlessly across all devices</p>
+                </div>
+                <div class="principle">
+                    <h4>Role-Based Views</h4>
+                    <p>Customized dashboards and interfaces for different user roles</p>
+                </div>
+                <div class="principle">
+                    <h4>Data Visualization</h4>
+                    <p>Interactive charts, graphs, and KPI cards for better insights</p>
+                </div>
+                <div class="principle">
+                    <h4>Real-time Updates</h4>
+                    <p>REST APIs today; WebSocket or push notifications can be layered for live queues and alerts</p>
+                </div>
+                <div class="principle">
+                    <h4>Accessibility</h4>
+                    <p>WCAG compliant design with keyboard navigation and screen reader support</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Authentication Pages</h2>
+            <div class="page-grid">
+                <div class="page-card">
+                    <h3><span class="icon">🔐</span>Login/Register</h3>
+                    <div class="route">/auth</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Multi-mode form (Login/Register/Forgot/Reset)</li>
+                            <li>OTP verification system</li>
+                            <li>Password strength indicator</li>
+                            <li>Role-based registration</li>
+                            <li>Gradient background design</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Login Form with gradient background,<br>
+                        form fields, and validation states]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Dashboard Pages</h2>
+            <div class="page-grid">
+                <div class="page-card">
+                    <h3><span class="icon">👨‍💼</span>Admin Dashboard</h3>
+                    <div class="route">/admin/dashboard</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Practice-wide statistics and KPIs</li>
+                            <li>User management overview</li>
+                            <li>System configuration access</li>
+                            <li>Financial metrics and reports</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Admin dashboard with KPI cards,<br>
+                        charts, and management tools]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">👨‍⚕️</span>Doctor Dashboard</h3>
+                    <div class="route">/doctor/dashboard</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Today's appointments overview</li>
+                            <li>Patient consultation queue</li>
+                            <li>Treatment history</li>
+                            <li>Schedule management</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Doctor dashboard with appointment<br>
+                        timeline and patient queue]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">👩‍💼</span>Staff Dashboard</h3>
+                    <div class="route">/staff/dashboard</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Patient check-in/check-out</li>
+                            <li>Appointment scheduling</li>
+                            <li>Patient registration</li>
+                            <li>Basic reporting</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Staff dashboard with check-in<br>
+                        interface and appointment calendar]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">👤</span>Patient Dashboard</h3>
+                    <div class="route">/patient/patient-dashboard</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Appointment history</li>
+                            <li>Upcoming appointments</li>
+                            <li>Treatment progress</li>
+                            <li>Personal information management</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Patient dashboard with appointment<br>
+                        cards and personal info]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Patient Management Pages</h2>
+            <div class="page-grid">
+                <div class="page-card">
+                    <h3><span class="icon">📋</span>Patient Profile</h3>
+                    <div class="route">/patient/patient-profile or /doctor/patients/:id</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Personal information</li>
+                            <li>Medical history</li>
+                            <li>Insurance details</li>
+                            <li>Appointment history</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Patient profile with tabbed interface<br>
+                        and form sections]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">➕</span>New Patient Form</h3>
+                    <div class="route">Consult manager modal (NewPatientForm)</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Multi-step registration form</li>
+                            <li>Address validation</li>
+                            <li>Insurance information</li>
+                            <li>Emergency contacts</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Multi-step patient registration form<br>
+                        with progress indicator]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Configuration Pages</h2>
+            <div class="page-grid">
+                <div class="page-card">
+                    <h3><span class="icon">💊</span>Treatment Configuration</h3>
+                    <div class="route">/admin/configuration/treatment</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Treatment categories</li>
+                            <li>Treatment plans with pricing</li>
+                            <li>Add-ons configuration</li>
+                            <li>Duration settings</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Treatment configuration with categories,<br>
+                        plans, and pricing tables]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">⚙️</span>Patient Configuration</h3>
+                    <div class="route">/admin/configuration/patient</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Required field configuration</li>
+                            <li>Custom field settings</li>
+                            <li>Form layout management</li>
+                            <li>Field validation rules</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Patient configuration with toggle switches<br>
+                        and field descriptions]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">💳</span>Payment Configuration</h3>
+                    <div class="route">/admin/configuration/payment</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Payment method setup</li>
+                            <li>Fee structure</li>
+                            <li>Discount configuration</li>
+                            <li>Billing settings</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Payment configuration with payment<br>
+                        methods and fee structure]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">📅</span>Appointment Configuration</h3>
+                    <div class="route">/admin/configuration/appointment</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Time slot configuration</li>
+                            <li>Booking rules</li>
+                            <li>Cancellation policies</li>
+                            <li>Notification settings</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Appointment configuration with time slots<br>
+                        and booking rules]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Settings Pages</h2>
+            <div class="page-grid">
+                <div class="page-card">
+                    <h3><span class="icon">🏥</span>Practice Settings</h3>
+                    <div class="route">/admin/practice-management</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Practice details</li>
+                            <li>Logo and branding</li>
+                            <li>Contact information</li>
+                            <li>Business hours</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Practice settings with logo upload<br>
+                        and business information]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">👥</span>User Settings</h3>
+                    <div class="route">/admin/settings (users in Settings)</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>User list and roles</li>
+                            <li>Permission management</li>
+                            <li>User creation/editing</li>
+                            <li>Role assignment</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [User settings with user table<br>
+                        and role management]
+                    </div>
+                </div>
+
+                <div class="page-card">
+                    <h3><span class="icon">📍</span>Location Settings</h3>
+                    <div class="route">Locations via onboarding / practice management</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Location management</li>
+                            <li>Address configuration</li>
+                            <li>Staff assignment</li>
+                            <li>Location-specific settings</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Location settings with location cards<br>
+                        and address forms]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Consultation Management</h2>
+            <div class="page-grid">
+                <div class="page-card">
+                    <h3><span class="icon">🩺</span>Consultation Manager</h3>
+                    <div class="route">/consult-manager</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Patient queue management</li>
+                            <li>Consultation status tracking</li>
+                            <li>Treatment notes</li>
+                            <li>Follow-up scheduling</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Consultation manager with patient queue<br>
+                        and status tracking]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Onboarding Pages</h2>
+            <div class="page-grid">
+                <div class="page-card">
+                    <h3><span class="icon">🚀</span>Practice Onboarding</h3>
+                    <div class="route">/onboarding</div>
+                    <div class="features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Practice registration</li>
+                            <li>Location setup</li>
+                            <li>User creation</li>
+                            <li>Initial configuration</li>
+                        </ul>
+                    </div>
+                    <div class="image-placeholder">
+                        [Onboarding wizard with progress indicator<br>
+                        and setup forms]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Advanced Features</h2>
+            <div class="principles">
+                <div class="principle">
+                    <h4>Real-Time Notifications</h4>
+                    <p>Appointment reminders, patient check-ins, consultation status updates, and system alerts</p>
+                </div>
+                <div class="principle">
+                    <h4>Smart Filters</h4>
+                    <p>Date range selection, doctor/staff filtering, patient search, and status-based filtering</p>
+                </div>
+                <div class="principle">
+                    <h4>Role-Based Access</h4>
+                    <p>Customized access levels for Admin, Doctor, Staff, and Patient roles</p>
+                </div>
+                <div class="principle">
+                    <h4>Data Export</h4>
+                    <p>Patient reports, appointment summaries, financial reports, and treatment statistics</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

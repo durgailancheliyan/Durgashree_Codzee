@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: medbook
+      POSTGRES_PASSWORD: medbook
+      POSTGRES_DB: hospital_mid
+    ports:
+      - "5432:5432"
+    volumes:
+      - medbook_pgdata:/var/lib/postgresql/data
+
+volumes:
+  medbook_pgdata:

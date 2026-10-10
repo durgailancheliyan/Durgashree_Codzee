@@ -17,3 +17,12 @@ npm run dev
 - Demo admin: `admin@medbook.local` / `Admin123!`
 
 Optional Postgres: `npm run db:up` (Docker Compose in this folder).
+
+## Tests
+
+Auth API tests use **Vitest + Supertest** with a **mocked** `getPool()` (no real DB, no patient/payment data):
+
+```bash
+npm test
+# or: npm run test:watch
+```

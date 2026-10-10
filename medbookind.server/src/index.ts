@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import { randomUUID } from 'crypto';
-import { ensureDatabaseExists, getPool, runMigrations } from './db.js';
+import { ensureDatabaseExists, getPool, runMigrations, verifyDatabaseConnection } from './db.js';
 import authRoutes from './routes/auth.js';
 import usersRoutes from './routes/users.js';
 import practiceRoutes from './routes/practice.js';
@@ -55,6 +55,7 @@ async function seedDemoUser(): Promise<void> {
 
 async function main(): Promise<void> {
   await ensureDatabaseExists();
+  await verifyDatabaseConnection();
   await runMigrations();
   await seedDemoUser();
 
@@ -92,6 +93,33 @@ async function main(): Promise<void> {
 
   app.use((_req, res) => {
     res.status(404).json({ message: 'Not found' });
+  });
+
+  // Express 4: catch async route errors so DB timeouts return JSON instead of crashing
+  app.use(
+    (
+      err: unknown,
+      _req: express.Request,
+      res: express.Response,
+      _next: express.NextFunction
+    ) => {
+      console.error('API error:', err);
+      const code =
+        err && typeof err === 'object' && 'code' in err
+          ? String((err as { code?: string }).code)
+          : '';
+      if (code === 'ETIMEDOUT' || code === 'ECONNREFUSED' || code === 'ENETUNREACH') {
+        res.status(503).json({
+          message: 'Database unavailable. Check DATABASE_URL / start local Postgres (npm run db:up).',
+        });
+        return;
+      }
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  );
+
+  process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled rejection (kept process alive):', reason);
   });
 
   app.listen(port, () => {

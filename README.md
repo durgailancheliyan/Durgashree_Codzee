@@ -218,7 +218,9 @@ hospital MID/
 | API `EADDRINUSE :5000` | Another server already running — use that process or stop it |
 | Client on 5174 | Normal if 5173 is taken; CORS allows `https://localhost:*` in dev |
 | Empty role / wrong dashboard | Log out and log in again so JWT has current `role` / `practiceId` |
-| DB / blank data | Check `DATABASE_URL` or `PG_*` in `medbookind.server/.env`, restart API |
+| DB `ETIMEDOUT` / Neon | Network blocked or Neon asleep — use local Docker: start Docker Desktop, then `cd medbookind.server && npm run db:up`, set `DATABASE_URL=postgresql://medbook:medbook@localhost:5432/hospital_mid`, restart API |
+| Proxy `ECONNRESET` / `ECONNREFUSED` | API crashed or not running — fix DB, then `npm run dev` in `medbookind.server` |
+| DB / blank data | Check `DATABASE_URL` in `medbookind.server/.env`, restart API |
 | Proxy errors | Start **server first**, then client |
 
 ---

@@ -30,10 +30,26 @@ function getTargetDatabaseName(): string | null {
   return process.env.PGDATABASE?.trim() || null;
 }
 
+function withPoolDefaults(config: pg.PoolConfig): pg.PoolConfig {
+  const connectionString = config.connectionString ?? '';
+  const needsSsl =
+    /sslmode=require/i.test(connectionString) ||
+    /\.neon\.tech/i.test(connectionString) ||
+    process.env.PGSSL === 'true';
+
+  return {
+    ...config,
+    connectionTimeoutMillis: Number(process.env.PG_CONNECT_TIMEOUT_MS ?? 10_000),
+    idleTimeoutMillis: 30_000,
+    max: Number(process.env.PG_POOL_MAX ?? 10),
+    ...(needsSsl ? { ssl: { rejectUnauthorized: false } } : {}),
+  };
+}
+
 function buildPoolConfig(): pg.PoolConfig {
   const url = process.env.DATABASE_URL?.trim();
   if (url) {
-    return { connectionString: url };
+    return withPoolDefaults({ connectionString: url });
   }
 
   const host = process.env.PGHOST ?? 'localhost';
@@ -48,13 +64,13 @@ function buildPoolConfig(): pg.PoolConfig {
     );
   }
 
-  return {
+  return withPoolDefaults({
     host,
     port,
     database,
     user,
     password,
-  };
+  });
 }
 
 /** Connect to the default `postgres` DB and create the target DB if missing. */
@@ -135,8 +151,25 @@ export async function ensureDatabaseExists(): Promise<void> {
 export function getPool(): pg.Pool {
   if (!pool) {
     pool = new Pool(buildPoolConfig());
+    pool.on('error', (err) => {
+      console.error('Unexpected PostgreSQL pool error:', err.message);
+    });
   }
   return pool;
+}
+
+/** Ping DB; throws a clear error if unreachable (e.g. Neon timeout / Docker down). */
+export async function verifyDatabaseConnection(): Promise<void> {
+  const p = getPool();
+  try {
+    await p.query('SELECT 1');
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    const hint = isRemoteManagedDatabase()
+      ? 'Remote DB unreachable (firewall/paused Neon?). Use local Docker: npm run db:up and set DATABASE_URL to postgresql://medbook:medbook@localhost:5432/hospital_mid'
+      : 'Local Postgres unreachable. Run: npm run db:up (Docker) or start PostgreSQL on port 5432.';
+    throw new Error(`Database connection failed: ${msg}\n${hint}`);
+  }
 }
 
 export async function runMigrations(): Promise<void> {

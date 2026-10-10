@@ -259,30 +259,34 @@ router.post('/reset-password', async (req, res) => {
   res.json({ message: 'Password updated successfully' });
 });
 
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body ?? {};
-  if (!email || !password) {
-    res.status(400).json({ message: 'Email and password required' });
-    return;
+router.post('/login', async (req, res, next) => {
+  try {
+    const { email, password } = req.body ?? {};
+    if (!email || !password) {
+      res.status(400).json({ message: 'Email and password required' });
+      return;
+    }
+    const pool = getPool();
+    const r = await pool.query(
+      `SELECT id, email, password_hash, first_name, last_name, role, is_onboarded, practice_id, email_verified, phone_verified
+       FROM users WHERE email = $1`,
+      [email.toLowerCase().trim()]
+    );
+    if (r.rows.length === 0) {
+      res.status(401).json({ message: 'Invalid email or password' });
+      return;
+    }
+    const u = r.rows[0];
+    const passOk = await bcrypt.compare(password, u.password_hash);
+    if (!passOk) {
+      res.status(401).json({ message: 'Invalid email or password' });
+      return;
+    }
+    const token = signToken({ sub: u.id, email: u.email, role: u.role });
+    res.json({ token, user: mapUser(u) });
+  } catch (err) {
+    next(err);
   }
-  const pool = getPool();
-  const r = await pool.query(
-    `SELECT id, email, password_hash, first_name, last_name, role, is_onboarded, practice_id, email_verified, phone_verified
-     FROM users WHERE email = $1`,
-    [email.toLowerCase().trim()]
-  );
-  if (r.rows.length === 0) {
-    res.status(401).json({ message: 'Invalid email or password' });
-    return;
-  }
-  const u = r.rows[0];
-  const passOk = await bcrypt.compare(password, u.password_hash);
-  if (!passOk) {
-    res.status(401).json({ message: 'Invalid email or password' });
-    return;
-  }
-  const token = signToken({ sub: u.id, email: u.email, role: u.role });
-  res.json({ token, user: mapUser(u) });
 });
 
 router.post('/register', async (req, res) => {
